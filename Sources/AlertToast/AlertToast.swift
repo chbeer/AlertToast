@@ -198,11 +198,11 @@ public struct AlertToast: View{
     ///`complete`, `error`, `systemImage`, `image`, `loading`, `regular`
     public var type: AlertType
     
-    ///The title of the alert (`Optional(String)`)
-    public var title: String? = nil
+    ///The title of the alert (`Optional(LocalizedStringKey)`)
+    public var title: LocalizedStringKey? = nil
     
-    ///The subtitle of the alert (`Optional(String)`)
-    public var subTitle: String? = nil
+    ///The subtitle of the alert (`Optional(LocalizedStringKey)`)
+    public var subTitle: LocalizedStringKey? = nil
     
     ///Customize your alert appearance
     public var style: AlertStyle? = nil
@@ -210,8 +210,8 @@ public struct AlertToast: View{
     ///Full init
     public init(displayMode: DisplayMode = .alert,
                 type: AlertType,
-                title: String? = nil,
-                subTitle: String? = nil,
+                title: LocalizedStringKey? = nil,
+                subTitle: LocalizedStringKey? = nil,
                 style: AlertStyle? = nil){
         
         self.displayMode = displayMode
@@ -224,7 +224,7 @@ public struct AlertToast: View{
     ///Short init with most used parameters
     public init(displayMode: DisplayMode,
                 type: AlertType,
-                title: String? = nil){
+                title: LocalizedStringKey? = nil){
         
         self.displayMode = displayMode
         self.type = type
@@ -259,12 +259,17 @@ public struct AlertToast: View{
                         EmptyView()
                     }
                     
-                    Text(LocalizedStringKey(title ?? ""))
-                        .font(style?.titleFont ?? Font.headline.bold())
+                    if let title {
+                        Text(title)
+                            .font(style?.titleFont ?? Font.headline.bold())
+                    } else {
+                        Text("")
+                            .font(style?.titleFont ?? Font.headline.bold())
+                    }
                 }
                 
                 if let subTitle = subTitle {
-                    Text(LocalizedStringKey(subTitle))
+                    Text(subTitle)
                         .font(style?.subTitleFont ?? Font.subheadline)
                 }
             }
@@ -308,13 +313,13 @@ public struct AlertToast: View{
                 if title != nil || subTitle != nil{
                     VStack(alignment: type == .regular ? .center : .leading, spacing: 2){
                         if let title = title {
-                            Text(LocalizedStringKey(title))
+                            Text(title)
                                 .font(style?.titleFont ?? Font.body.bold())
                                 .multilineTextAlignment(.center)
                                 .textColor(style?.titleColor ?? nil)
                         }
                         if let subTitle = subTitle {
-                            Text(LocalizedStringKey(subTitle))
+                            Text(subTitle)
                                 .font(style?.subTitleFont ?? Font.footnote)
                                 .opacity(0.7)
                                 .multilineTextAlignment(.center)
@@ -374,13 +379,13 @@ public struct AlertToast: View{
             
             VStack(spacing: type == .regular ? 8 : 2){
                 if let title = title {
-                    Text(LocalizedStringKey(title))
+                    Text(title)
                         .font(style?.titleFont ?? Font.body.bold())
                         .multilineTextAlignment(.center)
                         .textColor(style?.titleColor ?? nil)
                 }
                 if let subTitle = subTitle {
-                    Text(LocalizedStringKey(subTitle))
+                    Text(subTitle)
                         .font(style?.subTitleFont ?? Font.footnote)
                         .opacity(0.7)
                         .multilineTextAlignment(.center)
